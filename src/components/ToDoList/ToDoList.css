@@ -1,0 +1,41 @@
+.to-do-container{
+    margin: auto;
+    padding: 20px 40px;
+    background-color: #ffecb3;
+    max-width: 400px;
+    min-height: 400px;
+    border-radius: 5px;
+    box-shadow: 7px 7px 5px -2px rgba(0,0,0,0.3);
+    text-align: center;
+}
+
+.to-do-list {
+    max-width: 100px;
+    list-style-type: none;
+    padding: 0;
+}
+
+.list-item {
+    text-align: left;
+    width: 100%;
+    color: #808e95;
+}
+
+.line-container{
+    display: grid;
+    grid-template-columns: 90% auto;
+}
+
+.list-input{
+    border: none;
+    background-color:  #ffecb3;
+    border-bottom: 2px solid #808e95;
+}
+
+.add-item-btn{
+    font-size: 1.5em;
+    border: none;
+    cursor: pointer;
+    color: #808e95;
+    background-color:  #ffecb3;
+}
