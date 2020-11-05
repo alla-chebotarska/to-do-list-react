@@ -1,4 +1,6 @@
 import React from 'react';
+import AddBtn from '../AddBtn/AddBtn';
+import RemoveBtn from '../RemoveBtn/RemoveBtn';
 
 import './ToDoList.css';
 
@@ -17,10 +19,19 @@ class ToDoList extends React.Component {
         });
     }
 
-    onButtonClick = () => {
+    onAddButtonClick = () => {
         this.setState({
             listItem: this.state.listItem.concat(this.state.inputText),
             inputText: ''
+        })
+    }
+
+    onRemoveBtnClick = (item) => {
+        let modifiedlistItem = this.state.listItem;
+        let indexOfRemovedItem = modifiedlistItem.indexOf(item)
+        modifiedlistItem.splice(indexOfRemovedItem, 1);
+        this.setState({
+            listItem: modifiedlistItem
         })
     }
 
@@ -29,7 +40,18 @@ class ToDoList extends React.Component {
             <div className='to-do-container'>
                 <div>
                     <ul className='to-do-list'>
-                    {this.state.listItem.map((li, i) => <li key={i} className='list-item'>{li}</li>)}
+                        {this.state.listItem.map((item) =>
+                            <li key={item} className='list-item'>
+                                {item}
+                                <span className='remove'>
+                                    <RemoveBtn
+                                        item={item}
+                                        onClick={this.onRemoveBtnClick}
+                                    >
+                                    </RemoveBtn>
+                                </span>
+                            </li>
+                        )}
                     </ul>
                 </div>
                 <div className='line-container'>
@@ -38,13 +60,10 @@ class ToDoList extends React.Component {
                         value={this.state.inputText}
                         className='list-input'>
                     </input>
-                    <button
-                        onClick={this.onButtonClick}
-                        className='add-item-btn'>
-                        +
-                    </button>
+                    <AddBtn
+                        onClick={this.onAddButtonClick}>
+                    </AddBtn>
                 </div>
-                
             </div>
         )
     }
