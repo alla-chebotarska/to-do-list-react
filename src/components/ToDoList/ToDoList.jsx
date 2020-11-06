@@ -12,7 +12,7 @@ class ToDoList extends React.Component {
         this.state = {
             listItem: [{ key: Date.now(), checked: true, value: "test" }],
             inputText: '',
-            showAll: true
+            filter: 'all'
         }
     }
 
@@ -48,11 +48,35 @@ class ToDoList extends React.Component {
         })
     }
 
-    showActiveTask = (event) => {
-        let currentState = this.state.showAll;
+    showAll = (event) => {
         this.setState({
-            showAll: !currentState
+            filter: "all"
         })
+    }
+
+    showActiveTask = (event) => {
+        this.setState({
+            filter: "active"
+        })
+    }
+
+    showCompleated = (event) => {
+        this.setState({
+            filter: "compleated"
+        })
+    }
+
+    itemsFilter = (item) => {
+        switch(this.state.filter){
+            case "all": 
+                return true;
+                break;
+            case "active": 
+                return !item.checked;
+                break;
+            case "compleated": 
+                return item.checked;
+        }
     }
 
     render() {
@@ -61,7 +85,7 @@ class ToDoList extends React.Component {
                 <div>
                     <ul className='to-do-list'>
                         {this.state.listItem
-                            .filter((item) => this.state.showAll || !item.checked)
+                            .filter(this.itemsFilter)
                             .map((item) =>
                                 <li key={item.key} className={`list-item ${item.checked ? 'checked-item' : ''}`}>
                                     <Checkbox
@@ -91,8 +115,16 @@ class ToDoList extends React.Component {
                     </AddBtn>
                 </div>
                 <Button
+                    onClick={this.showAll}>
+                   Show all
+                </Button>
+                <Button
                     onClick={this.showActiveTask}>
-                   { this.state.showAll ? 'Show active task' : "Show all task"}
+                   Show active
+                </Button>
+                <Button
+                    onClick={this.showCompleated}>
+                   Show compleated
                 </Button>
             </div>
         )
