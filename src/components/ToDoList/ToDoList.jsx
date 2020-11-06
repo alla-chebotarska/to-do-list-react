@@ -1,5 +1,6 @@
 import React from 'react';
 import AddBtn from '../AddBtn/AddBtn';
+import Button from '../Button/Button';
 import Checkbox from '../Checkbox/Checkbox';
 import RemoveBtn from '../RemoveBtn/RemoveBtn';
 
@@ -11,6 +12,7 @@ class ToDoList extends React.Component {
         this.state = {
             listItem: [{ key: Date.now(), checked: true, value: "test" }],
             inputText: '',
+            showAll: true
         }
     }
 
@@ -20,8 +22,8 @@ class ToDoList extends React.Component {
         });
     }
 
-    onAddButtonClick = (item) => {
-        let newItem = {key: Date.now(), checked: false, value: this.state.inputText};
+    onAddButtonClick = () => {
+        let newItem = { key: Date.now(), checked: false, value: this.state.inputText };
         this.setState({
             listItem: this.state.listItem.concat(newItem),
             inputText: ''
@@ -46,27 +48,36 @@ class ToDoList extends React.Component {
         })
     }
 
+    showActiveTask = (event) => {
+        let currentState = this.state.showAll;
+        this.setState({
+            showAll: !currentState
+        })
+    }
+
     render() {
         return (
             <div className='to-do-container'>
                 <div>
                     <ul className='to-do-list'>
-                        {this.state.listItem.map((item) =>
-                            <li key={item.key} className={`list-item ${item.checked ? 'checked-item' : ''}`}>
-                                <Checkbox
-                                    item={item}
-                                    onChange={this.onCheckboxClick}
-                                    checked={item.checked} />
-                                {item.value}
-                                <span className='remove'>
-                                    <RemoveBtn
+                        {this.state.listItem
+                            .filter((item) => this.state.showAll || !item.checked)
+                            .map((item) =>
+                                <li key={item.key} className={`list-item ${item.checked ? 'checked-item' : ''}`}>
+                                    <Checkbox
                                         item={item}
-                                        onClick={this.onRemoveBtnClick}
-                                    >
-                                    </RemoveBtn>
-                                </span>
-                            </li>
-                        )}
+                                        onChange={this.onCheckboxClick}
+                                        checked={item.checked} />
+                                    {item.value}
+                                    <span className='remove'>
+                                        <RemoveBtn
+                                            item={item}
+                                            onClick={this.onRemoveBtnClick}
+                                        >
+                                        </RemoveBtn>
+                                    </span>
+                                </li>
+                            )}
                     </ul>
                 </div>
                 <div className='line-container'>
@@ -79,6 +90,10 @@ class ToDoList extends React.Component {
                         onClick={this.onAddButtonClick}>
                     </AddBtn>
                 </div>
+                <Button
+                    onClick={this.showActiveTask}>
+                   { this.state.showAll ? 'Show active task' : "Show all task"}
+                </Button>
             </div>
         )
     }
