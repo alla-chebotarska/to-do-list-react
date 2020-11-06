@@ -24,7 +24,11 @@
     color: #808e95;
     margin-top: 12px;
     cursor: pointer;
-    font-size: 18px;
+    font-size: 18px; 
+}
+
+.checked-item {
+    text-decoration: line-through;
 }
 
 .remove {
